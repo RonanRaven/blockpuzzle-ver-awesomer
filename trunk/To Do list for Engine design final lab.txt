@@ -1,0 +1,13 @@
+todo list:
+[ ] Refactor //...big time
+	piece} -> map
+	board} 
+
+[ ] Display next piece
+[ ] Score
+[ ] Speed
+
+
+maybe:
+[ ] music
+[ ] graphics -> openGL or Directx, or just add in more graphics
