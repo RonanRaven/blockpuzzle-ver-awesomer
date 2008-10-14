@@ -20,8 +20,6 @@ using namespace std;
 #define minsizecol 6
 
 Random random;
-char gamemode;
-int amounttogrow;
 
 Game::Game()
 {
@@ -32,7 +30,6 @@ Game::Game()
 
 void Game::run()
 {
-	char boardtype;
 	int now, then=clock();
 	int timeDelay=800;
 	disableFlashingCursor();
@@ -44,35 +41,6 @@ void Game::run()
 
 	piece.newpiece(random.getInt(0,6),startx,starty);
 
-	cout<<"Welcome to the 'Block Puzzle Game'"<<endl;
-	cout<<"Please select how you would like to play:"<<endl<<endl;
-
-	cout<<"Play normally (n), \nwith expandable rows (y), \nwith expandable collumns (c), \nor with both (b): ";
-	cin>>gamemode;
-	while(gamemode!='n'&&gamemode!='y'&&gamemode!='c'&&gamemode!='b')
-	{
-		system("cls");
-		cout<<"Play normally (n), \nwith expandable rows (y), \nwith expandable collumns (c), \nor with both (b): ";
-		cin>>gamemode;
-	}
-	cout<<endl;
-	if(gamemode=='y'||gamemode=='c'||gamemode=='b')
-	{
-		cout<<"Now, would you like the board to grow(g), or shrink(s)?";
-		cin>>boardtype;
-		while(boardtype!='g'&&boardtype!='s')
-		{
-			system("cls");
-			cout<<"Now, would you like the board to grow(g), or shrink(s)?";
-			cin>>boardtype;
-		}
-		if(boardtype=='g')
-			amounttogrow=1;
-		else //its s
-			amounttogrow=-1;
-	}
-
-	system("cls");
 	while(gamerunning)
 	{	
 		while(!kbhit())
@@ -95,15 +63,22 @@ void Game::run()
 
 void Game::drawWorld()
 {
-	//brandon
-	//draw next piece
 	gotoxy(board.getcol()/2,sizeY-2);// 2 is right above where it's printed
-	cout<<"Block Puzzle Game";
-	board.draw(sizeX,sizeY);
-	piece.draw(sizeX,sizeY);
-	showLinesCleared(sizeX, sizeY);
-	//brandon
-	//show score (maybe instead of lines cleared) you can also create how score is done and implement it
+	if(!menu.MenuFinished)
+	{
+		menu.drawMenu();
+	}
+	else
+	{
+		//brandon
+		//draw next piece
+		cout<<"Block Puzzle Game";
+		board.draw(sizeX,sizeY);
+		piece.draw(sizeX,sizeY);
+		showLinesCleared(sizeX, sizeY);
+		//brandon
+		//show score (maybe instead of lines cleared) you can also create how score is done and implement it
+	}
 }
 
 void Game::processGameLogic(int &then, int &now)
@@ -131,11 +106,11 @@ void Game::processGameLogic(int &then, int &now)
 				if(rowscleared%rowstillgrow==0)
 				{
 					//if(board.getcol()>minsizecol&&board.gboard.getrow()//if it is between the min and max let it grow/shrink
-					if((gamemode=='b'||gamemode=='r')&&((board.getrow()>minsizerow)&&(board.getrow()<maxsizerow)))
-						board.growRow(amounttogrow);
-					if((gamemode=='b'||gamemode=='c')&&((board.getcol()>minsizecol)&&(board.getcol()<maxsizecol)))
+					if((menu.getMode()=='b'||menu.getMode()=='r')&&((board.getrow()>minsizerow)&&(board.getrow()<maxsizerow)))
+						board.growRow(menu.getGrow());
+					if((menu.getMode()=='b'||menu.getMode()=='c')&&((board.getcol()>minsizecol)&&(board.getcol()<maxsizecol)))
 					{
-						board.growCol(amounttogrow);
+						board.growCol(menu.getGrow());
 						startx=(board.getcol()/2);
 					}
 					system("cls");
@@ -148,54 +123,65 @@ void Game::processGameLogic(int &then, int &now)
 
 void Game::processInput()
 {
-	switch(input)
+	if(!menu.MenuFinished)
 	{
-		//left arrow = -32 75 'K'
-		//right arrow = -32 77 'M'
-		//up arrow = -32 72 'H'
-		//down arrow = -32 80 'P'
-	case 'W':
-	case 'w':
-	case 'H'://up key
-		upPressed();
-		break;
-	case 'A':
-	case 'a':
-	case 'K': //left key
-		moveLeft();
-		break;
-	case 'S':
-	case 's':
-	case 'P'://down key
-		moveDown();
-		break;
-	case 'D':
-	case 'd':
-	case 'M'://right key
-		moveRight();
-		break;
-	case 'Q':
-	case 'q':
-		rotateCCW();
-		break;
-	case 'E':
-	case 'e':
-		rotateCW();
-		break;
-	case ' '://debug/display purposes only
-		
 		system("cls");
-		if((gamemode=='b'||gamemode=='r')&&((board.getrow()>minsizerow)&&(board.getrow()<maxsizerow)))
-			board.growRow(amounttogrow);
-		if((gamemode=='b'||gamemode=='c')&&((board.getcol()>minsizecol)&&(board.getcol()<maxsizecol)))
+		gamerunning=menu.menuInput(input);
+	}
+	else
+	{
+		switch(input)
 		{
-			board.growCol(amounttogrow);
-			startx=(board.getcol()/2);
+			//left arrow = -32 75 'K'
+			//right arrow = -32 77 'M'
+			//up arrow = -32 72 'H'
+			//down arrow = -32 80 'P'
+		case 'W':
+		case 'w':
+		case 'H'://up key
+			upPressed();
+			break;
+		case 'A':
+		case 'a':
+		case 'K': //left key
+			moveLeft();
+			break;
+		case 'S':
+		case 's':
+		case 'P'://down key
+			moveDown();
+			break;
+		case 'D':
+		case 'd':
+		case 'M'://right key
+			moveRight();
+			break;
+		case 'Q':
+		case 'q':
+			rotateCCW();
+			break;
+		case 'E':
+		case 'e':
+			rotateCW();
+			break;
+		case ' '://debug/display purposes only
+			
+			system("cls");
+			if((menu.getMode()=='b'||menu.getMode()=='r')&&((board.getrow()>minsizerow)&&(board.getrow()<maxsizerow)))
+				board.growRow(menu.getGrow());
+			if((menu.getMode()=='b'||menu.getMode()=='c')&&((board.getcol()>minsizecol)&&(board.getcol()<maxsizecol)))
+			{
+				board.growCol(menu.getGrow());
+				startx=(board.getcol()/2);
+			}
+			break;
+			
+		case 27:
+			menu.setMode(0,false);
+			menu.MenuFinished=false;
+			system("cls");
+			break;
 		}
-		break;
-		
-	case 27:
-		gamerunning=false;
 	}
 }
 
