@@ -14,8 +14,8 @@ using namespace std;
 #define sizeY 5
 #define droptime 480
 #define rowstillgrow 5
-#define maxsizerow 25
-#define maxsizecol 20
+#define maxsizerow 30
+#define maxsizecol 25
 #define minsizerow 10
 #define minsizecol 6
 
@@ -97,7 +97,7 @@ void Game::processGameLogic(int &then, int &now)
 	{
 		for(int c=0;c<board.getcol();c++)
 		{
-			if(board.table[r][c]=='*')
+			if(board.checkAt(r,c)=='*')
 				counter++;
 			if(counter>=board.getcol())
 			{

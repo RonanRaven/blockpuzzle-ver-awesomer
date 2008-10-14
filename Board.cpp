@@ -11,31 +11,31 @@ using namespace std;
 
 Board::Board()
 {
-	row=rows;
-	col=collumns;
+	setrow(rows);
+	setcol(collumns);
 
-	table=new char* [row];
-	color=new int* [row];
-	for(int index=0;index<row;index++)
+	map.table=new char* [getrow()];
+	color=new int* [getrow()];
+	for(int index=0;index<getrow();index++)
 	{
-		table[index]=new char[col];
-		color[index]=new int[col];
+		map.table[index]=new char[getcol()];
+		color[index]=new int[getcol()];
 	}
 
-	for(int r=0; r<row;r++)
+	for(int r=0; r<getrow();r++)
 	{
-		for(int c=0;c<col;c++)
+		for(int c=0;c<getcol();c++)
 		{
-			table[r][c]=' ';
+			map.table[r][c]=' ';
 		}
 	}
 }
 
 void Board::draw(int offsetx, int offsety)
 {	
-	for(int r=-1;r<row+1;r++)
+	for(int r=-1;r<getrow()+1;r++)
 	{
-		for(int c=-1;c<col+1;c++)
+		for(int c=-1;c<getcol()+1;c++)
 		{
 			
 			if(r==-1&&c==-1)//top left
@@ -43,44 +43,44 @@ void Board::draw(int offsetx, int offsety)
 				gotoxy(c+offsetx, offsety+r);
 				cout<<(char)201;
 			}
-			else if(r==-1&&c==col)//top right
+			else if(r==-1&&c==getcol())//top right
 			{
 				gotoxy(c+offsetx, offsety+r);
 				cout<<(char)187;
 			}
-			else if(r==row&&c==-1)//bottom left
+			else if(r==getrow()&&c==-1)//bottom left
 			{
 				gotoxy(c+offsetx, offsety+r);
 				cout<<(char)200;
 			}
-			else if(r==row&&c==col)//bottom right
+			else if(r==getrow()&&c==getcol())//bottom right
 			{
 				gotoxy(c+offsetx, offsety+r);
 				cout<<(char)188;
 			}
-			else if(c==-1||c==col)
+			else if(c==-1||c==getcol())
 			{
 				gotoxy(c+offsetx, offsety+r);
 				cout<<(char)186;
 			}
-			else if(c>=0&&c<col)//top and bottom
+			else if(c>=0&&c<getcol())//top and bottom
 			{
 				gotoxy(c+offsetx, offsety-1);
 				cout<<(char)205;
-				gotoxy(c+offsetx, offsety+row);
+				gotoxy(c+offsetx, offsety+getrow());
 				cout<<(char)205;
 
-				if(r>=0&&r<row)
+				if(r>=0&&r<getrow())
 				{
 					//draw the board
 					gotoxy(c+offsetx, r+offsety);
-					if(table[r][c]==' ')
+					if(map.table[r][c]==' ')
 					{
 						setcolor(COLOR_BLACK,COLOR_WHITE);
 						cout<<' ';
 						setcolor(COLOR_GRAY,COLOR_BLACK);
 					}
-					else if(table[r][c]=='*')
+					else if(map.table[r][c]=='*')
 					{
 						setcolor(color[r][c],COLOR_BLACK);
 						cout<<(char)254;//the square
@@ -93,18 +93,18 @@ void Board::draw(int offsetx, int offsety)
 
 /*
 	//system("cls");
-	for(int r=0; r<row;r++)
+	for(int r=0; r<getrow();r++)
 	{
-		for(int c=0;c<col;c++)
+		for(int c=0;c<getcol();c++)
 		{
 			gotoxy(c+offsetx, r+offsety);
-			if(table[r][c]==' ')
+			if(map.table[r][c]==' ')
 			{
 				setcolor(COLOR_BLACK,COLOR_WHITE);
 				cout<<' ';
 				setcolor(COLOR_GRAY,COLOR_BLACK);
 			}
-			else if(table[r][c]=='*')
+			else if(map.table[r][c]=='*')
 			{
 				setcolor(color[r][c],COLOR_BLACK);
 				cout<<(char)254;//the square
@@ -118,14 +118,14 @@ void Board::draw(int offsetx, int offsety)
 }
 void Board::putblock(Piece &piece)
 {
-
 	for(int r=0;r<piece.getrow();r++)
 	{
 		for(int c=0;c<piece.getcol();c++)
 		{
-			if(piece.block[r][c]!=' ')
+			if(piece.checkAt(r,c)!=' ')
 			{
-				table[r+piece.gety()][c+piece.getx()]=piece.block[r][c];
+				setAt(r+piece.gety(),c+piece.getx(),piece.checkAt(r,c));
+				//map.table[r+piece.gety()][c+piece.getx()]=piece.checkAt(r,c);//piece.map.table[r][c];
 				color[r+piece.gety()][c+piece.getx()]=piece.getcolor();
 			}
 		}
@@ -138,7 +138,7 @@ bool Board::collision(Piece &piece)
 	{
 		for(int c_count=0;c_count<piece.getcol();c_count++)
 		{
-			if(table[piece.gety()+r_count][piece.getx()+c_count]=='*' && piece.block[r_count][c_count]=='*')
+			if(checkAt(piece.gety()+r_count,piece.getx()+c_count)=='*' && piece.checkAt(r_count,c_count)=='*')
 			{
 				return true;
 				//break;
@@ -150,13 +150,13 @@ bool Board::collision(Piece &piece)
 bool Board::outside(Piece &piece)
 {
 	//x++ (to the right)
-	if(piece.getx()+piece.getcol()>col)
+	if(piece.getx()+piece.getcol()>getcol())
 		return true;
 	//x-- (to the left)
 	else if(piece.getx()<0)
 		return true;
 	//y++ (to the bottom)
-	else if(piece.gety()+piece.getrow()>row)
+	else if(piece.gety()+piece.getrow()>getrow())
 		return true;
 	//y-- (to the top)
 	else if(piece.gety()<0)
@@ -168,16 +168,16 @@ void Board::deleterow(int num)
 {
 	for(int r=num;r>=0;r--)
 	{
-		for(int c=0;c<col;c++)
+		for(int c=0;c<getcol();c++)
 		{
 			if(r>0)
 			{
-				table[r][c]=table[r-1][c];
+				map.table[r][c]=map.table[r-1][c];
 				color[r][c]=color[r-1][c];
 			}
 			else
 			{
-				table[r][c]=' ';
+				map.table[r][c]=' ';
 			}
 		}
 	}
@@ -187,16 +187,16 @@ void Board::deletecol(int num)
 {
 	for(int c=num;c>=0;c--)
 	{
-		for(int r=0;r<row;r++)
+		for(int r=0;r<getrow();r++)
 		{
 			if(c>0)
 			{
-				table[r][c]=table[r][c-1];
+				map.table[r][c]=map.table[r][c-1];
 				color[r][c]=color[r][c-1];
 			}
 			else
 			{
-				table[r][c]=' ';
+				map.table[r][c]=' ';
 			}
 		}
 	}
@@ -204,66 +204,66 @@ void Board::deletecol(int num)
 
 void Board::growRow(int numtogrow)
 {
-	row+=numtogrow;
-	char** newMap=new char*[row];
-	int** newColor=new int*[row];
-	for(int r=0;r<row;r++)
+	setrow(getrow()+numtogrow);
+	char** newMap=new char*[getrow()];
+	int** newColor=new int*[getrow()];
+	for(int r=0;r<getrow();r++)
 	{
-		newMap[r]=new char[col];
-		newColor[r]=new int[col];
-		for(int c=0;c<col;c++)
+		newMap[r]=new char[getcol()];
+		newColor[r]=new int[getcol()];
+		for(int c=0;c<getcol();c++)
 		{
-			if(r>=row-numtogrow)
+			if(r>=getrow()-numtogrow)
 			{
 				newMap[r][c]=' ';
 				newColor[r][c]=15;//white
 			}
 			else
 			{
-				newMap[r][c]=table[r][c];
+				newMap[r][c]=map.table[r][c];
 				newColor[r][c]=color[r][c];
 			}
 		}
 	}
-	delete table;
+	delete map.table;
 	delete color;
-	table=newMap;
+	map.table=newMap;
 	color=newColor;
 	//delete the empty rows at the bottom
-	for(int r=row-numtogrow;r<row;r++)
+	for(int r=getrow()-numtogrow;r<getrow();r++)
 	{
 		deleterow(r);
 	}
 }
 void Board::growCol(int numtogrow)//re-visit
 {
-	col+=numtogrow;
-	char** newMap=new char*[row];
-	int** newColor=new int*[row];
-	for(int r=0;r<row;r++)
+	setcol(getcol()+numtogrow);
+	char** newMap=new char*[getrow()];
+	int** newColor=new int*[getrow()];
+	for(int r=0;r<getrow();r++)
 	{
-		newMap[r]=new char[col];
-		newColor[r]=new int[col];
-		for(int c=0;c<col;c++)
+		newMap[r]=new char[getcol()];
+		newColor[r]=new int[getcol()];
+		for(int c=0;c<getcol();c++)
 		{
-			if(c>=col-numtogrow)
+			if(c>=getcol()-numtogrow)
 			{
 				newMap[r][c]=' ';
 				newColor[r][c]=15;//white
 			}
 			else
 			{
-				newMap[r][c]=table[r][c];
+				newMap[r][c]=map.table[r][c];
 				newColor[r][c]=color[r][c];
 			}
 		}
 	}
-	delete table;
+	delete map.table;
 	delete color;
-	table=newMap;
+	map.table=newMap;
 	color=newColor;
 	//delete the empty rows at the right
-	for(int c=col-numtogrow;c<col;c++)
+	for(int c=getcol()-numtogrow;c<getcol();c++)
 	{
 		deletecol(c);
 	}
