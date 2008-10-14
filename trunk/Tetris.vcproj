@@ -178,7 +178,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Map.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Piece.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\startMenu.cpp"
 				>
 			</File>
 		</Filter>
@@ -200,11 +208,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Map.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Piece.h"
 				>
 			</File>
 			<File
 				RelativePath=".\random.h"
+				>
+			</File>
+			<File
+				RelativePath=".\startMenu.h"
 				>
 			</File>
 		</Filter>

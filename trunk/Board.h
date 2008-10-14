@@ -5,6 +5,7 @@
 #define BOARD_H
 #include "cli.h"
 #include "piece.h"
+#include "map.h"
 
 #define rows 15
 #define collumns 10
@@ -13,9 +14,10 @@ class Board
 {
 private:
 	//int x, y;
-	int row, col;
+	//int row, col;
 public:
-	char** table;//[rows][collumns];
+	//char** table;//[rows][collumns];
+	Map map;
 	int** color;//[rows][collumns];
 
 	Board();
@@ -30,7 +32,11 @@ public:
 	bool collision(Piece &piece);
 	bool outside(Piece &piece);
 
-	int getrow(){return row;}
-	int getcol(){return col;}
+	int getrow(){return map.getrow();}
+	int getcol(){return map.getcol();}
+	void setrow(int r){map.setrow(r);}
+	void setcol(int c){map.setcol(c);}
+	char checkAt(int r, int c){return map.checkAt(r,c);}
+	void setAt(int r, int c, char ascii){map.setAt(r,c,ascii);}
 };
 #endif

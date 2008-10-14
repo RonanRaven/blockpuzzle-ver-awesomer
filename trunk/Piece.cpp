@@ -13,18 +13,18 @@ using namespace std;
 
 Piece::Piece()
 {	
-	block=NULL;
+	map.table=NULL;
 	//newpiece(random.getInt(0,6),4,0);
 }
 
 void Piece::draw(int offsetx, int offsety)
 {	
-	for(int r_count=0;r_count<row;r_count++)
+	for(int r_count=0;r_count<getrow();r_count++)
 	{		
-		for(int c_count=0;c_count<col;c_count++)
+		for(int c_count=0;c_count<getcol();c_count++)
 		{			
 			gotoxy(offsetx+x+c_count,offsety+y+r_count);
-			if(block[r_count][c_count]=='*')
+			if(checkAt(r_count,c_count)=='*')
 			{
 				setcolor(color,COLOR_BLACK);
 				cout<<(char)254;//the square
@@ -96,23 +96,26 @@ void Piece::newpiece(int number, int numx, int numy)
 		break;
 	}
 	//create the array depending on the file opened
-	file>>col;
-	file>>row;
+	int temp;
+	file>>temp;
+	setcol(temp);
+	file>>temp;
+	setrow(temp);
 	
-	block=new char* [row];
-	for(int index=0;index<row;index++)
-	{
-		block[index]=new char[col];
-	}
+	map.createTable(map.getrow(),map.getcol());
 
-	for(int r_count=0;r_count<row;r_count++)
+	char buffer;
+	for(int r_count=0;r_count<getrow();r_count++)
 	{
-		for(int c_count=0;c_count<col;c_count++)
+		for(int c_count=0;c_count<getcol();c_count++)
 		{
-			file.get(block[r_count][c_count]);
-			if(block[r_count][c_count]=='\n'||block[r_count][c_count]=='\r')
+			file.get(buffer);
+			setAt(r_count,c_count,buffer);
+
+			if(checkAt(r_count,c_count)=='\n'||checkAt(r_count,c_count)=='\r')
 			{
-				file.get(block[r_count][c_count]);
+				file.get(buffer);
+				setAt(r_count,c_count,buffer);
 			}
 		}
 	}
@@ -122,14 +125,10 @@ void Piece::newpiece(int number, int numx, int numy)
 void Piece::deletepiece()
 {
 	//delete's
-	for(int r_count=0;r_count<row;r_count++)
-	{
-		delete block[r_count];
-	}
-	delete block;
-	block=NULL;
-	row=0;
-	col=0;
+	map.deleteTable();
+	map.table=NULL;
+	setrow(0);
+	setcol(0);
 	x=0;
 	y=0;
 }
@@ -151,88 +150,87 @@ void Piece::right()
 }
 void Piece::RotateCW()
 {
-	char** newMap=new char*[col];
-	for(int r=0;r<col;r++)
+	char** newMap=new char*[getcol()];
+	for(int r=0;r<getcol();r++)
 	{
-		newMap[r]=new char[row];
-		for(int c=0;c<row;c++)
+		newMap[r]=new char[getrow()];
+		for(int c=0;c<getrow();c++)
 		{
-			//cout<<block[(row-1)-c][r];
-			newMap[r][c]=block[(row-1)-c][r];
+			//cout<<table[(getrow()-1)-c][r];
+			newMap[r][c]=map.checkAt((getrow()-1)-c,r);
 		}
 		cout<<endl;
 	}
-	delete block;
-	block=newMap;
+	map.deleteTable();
+	map.table=newMap;
 
-	int temp=row;
-	row=col;
-	col=temp;
-
+	int temp=getrow();
+	setrow(getcol());
+	setcol(temp);
 	//x=x+1;
 	//y=y-1;
 }
 void Piece::RotateCCW()
 {
-	char** newMap=new char*[col];
-	for(int r=0;r<col;r++)
+	char** newMap=new char*[getcol()];
+	for(int r=0;r<getcol();r++)
 	{
-		newMap[r]=new char[row];
-		for(int c=0;c<row;c++)
+		newMap[r]=new char[getrow()];
+		for(int c=0;c<getrow();c++)
 		{
-			//cout<<block[(row-1)-c][r];
-			newMap[r][c]=block[c][(col-1)-r];
+			//cout<<table[(getrow()-1)-c][r];
+			newMap[r][c]=map.checkAt(c,(getcol()-1)-r);
 		}
 		cout<<endl;
 	}
-	delete block;
-	block=newMap;
+	map.deleteTable();
+	map.table=newMap;
 	
-	int temp=row;
-	row=col;
-	col=temp;
+	int temp=getrow();
+	setrow(getcol());
+	setcol(temp);
 }
 void Piece::flipH()
 {
-	char** newMap=new char*[row];
-	for(int r=0;r<row;r++)
+	char** newMap=new char*[getrow()];
+	for(int r=0;r<getrow();r++)
 	{
-		newMap[r]=new char[col];
-		for(int c=0;c<col;c++)
+		newMap[r]=new char[getcol()];
+		for(int c=0;c<getcol();c++)
 		{
-			newMap[r][c]=block[r][(col-1)-c];
+			newMap[r][c]=map.checkAt(r,(getcol()-1)-c);
 		}
 	}
-	delete block;
-	block=newMap;
+	map.deleteTable();
+	map.table=newMap;
 }
 void Piece::flipV()
 {
-	char** newMap=new char*[row];
-	for(int r=0;r<row;r++)
+	char** newMap=new char*[getrow()];
+	for(int r=0;r<getrow();r++)
 	{
-		newMap[r]=new char[col];
-		for(int c=0;c<col;c++)
+		newMap[r]=new char[getcol()];
+		for(int c=0;c<getcol();c++)
 		{
-			newMap[r][c]=block[(row-1)-r][c];
+			newMap[r][c]=map.checkAt((getrow()-1)-r,c);
 		}
 	}
-	delete block;
-	block=newMap;
+	map.deleteTable();
+	map.table=newMap;
 }
-//row = height
-//col = width
+//getrow() = height
+//getcol() = width
 /*
 //cw
-char** newMap=new char*[col];
-	for(int c=0;r<col;c++)
+char** newMap=new char*[getcol()];
+	for(int c=0;r<getcol();c++)
 	{
-		newMap[r]=new char[col];
-		for(int c=0;c<col;c++)
+		newMap[r]=new char[getcol()];
+		for(int c=0;c<getcol();c++)
 		{
-			newMap[r][c]=block[(row-1)r][c];
+			newMap[r][c]=table[(getrow()-1)r][c];
 		}
 	}
-	delete block;
-	block=newMap;
+	delete table;
+	table=newMap;
 	*/
