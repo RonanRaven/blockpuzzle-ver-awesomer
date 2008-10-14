@@ -11,3 +11,5 @@ todo list:
 maybe:
 [ ] music
 [ ] graphics -> openGL or Directx, or just add in more graphics
+[ ] two players/multiple players
+[ ] AI
