@@ -43,7 +43,7 @@ void Game::run()
 
 	while(gamerunning)
 	{	
-		while(!kbhit())
+		while(!kbhit()&&gamerunning)
 		{
 			now=clock();
 			processGameLogic(then, now);
@@ -54,8 +54,11 @@ void Game::run()
 				Sleep(1);
 			}
 		}
-		input=getch();
-		processInput();
+		if(gamerunning)
+		{
+			input=getch();
+			processInput();
+		}
 	}
 	//game over X_X
 	cout<<"GAME OVER"<<endl;
@@ -85,7 +88,7 @@ void Game::processGameLogic(int &then, int &now)
 {
 	//brandon
 	//make the droptime not a defined value, but a variable that can change, and implement changing speed.
-	if(now>then+droptime)
+	if(now>then+droptime&&menu.MenuFinished)
 	{
 		moveDown();
 		then=now;
