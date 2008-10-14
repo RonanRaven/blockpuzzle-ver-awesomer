@@ -78,14 +78,9 @@ void Game::run()
 		while(!kbhit())
 		{
 			now=clock();
-			processGameLogic();
+			processGameLogic(then, now);
 			drawWorld();
 			gotoxy(sizeX,sizeY);//to keep the screen from jittering around
-			if(now>then+droptime)
-			{
-				moveDown();
-				then=now;
-			}
 			while(!kbhit()&&clock()<now+timeDelay)
 			{
 				Sleep(1);
@@ -100,15 +95,26 @@ void Game::run()
 
 void Game::drawWorld()
 {
+	//brandon
+	//draw next piece
 	gotoxy(board.getcol()/2,sizeY-2);// 2 is right above where it's printed
 	cout<<"Block Puzzle Game";
 	board.draw(sizeX,sizeY);
 	piece.draw(sizeX,sizeY);
 	showLinesCleared(sizeX, sizeY);
+	//brandon
+	//show score (maybe instead of lines cleared) you can also create how score is done and implement it
 }
 
-void Game::processGameLogic()
+void Game::processGameLogic(int &then, int &now)
 {
+	//brandon
+	//make the droptime not a defined value, but a variable that can change, and implement changing speed.
+	if(now>then+droptime)
+	{
+		moveDown();
+		then=now;
+	}
 	//check if the line is complete
 	//checkline();
 	int counter=0;

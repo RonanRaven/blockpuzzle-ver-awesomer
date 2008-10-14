@@ -1,12 +1,17 @@
 todo list:
+Bryant:
 [ ] Refactor //...big time
 	piece} -> map
 	board} 
 
+Brandon:
 [ ] Display next piece
 [ ] Score
 [ ] Speed
 
+Anthony:
+[ ] Refactor parts of main
+[ ] create menu system
 
 maybe:
 [ ] music
