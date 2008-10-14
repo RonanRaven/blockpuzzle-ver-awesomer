@@ -6,12 +6,14 @@
 
 #include "Board.h"
 #include "Piece.h"
+#include "startMenu.h"
 
 class Game
 {
 private:
 	Board board;
 	Piece piece;
+	startMenu menu;
 	bool gamerunning;
 	char input;
 	//int timepassed;
