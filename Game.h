@@ -22,7 +22,7 @@ public:
 	void run();
 	void processInput();
 	void drawWorld();
-	void processGameLogic();
+	void processGameLogic(int &then, int &now);
 	void showLinesCleared(int x, int y);
 
 	void moveLeft();
