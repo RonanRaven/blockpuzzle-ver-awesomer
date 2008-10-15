@@ -31,6 +31,28 @@ Board::Board()
 	}
 }
 
+Board::Board(int row,int coll)
+{
+	setrow(row);
+	setcol(coll);
+
+	map.table=new char* [getrow()];
+	color=new int* [getrow()];
+	for(int index=0;index<getrow();index++)
+	{
+		map.table[index]=new char[getcol()];
+		color[index]=new int[getcol()];
+	}
+
+	for(int r=0; r<getrow();r++)
+	{
+		for(int c=0;c<getcol();c++)
+		{
+			map.table[r][c]=' ';
+		}
+	}
+}
+
 void Board::draw(int offsetx, int offsety)
 {	
 	for(int r=-1;r<getrow()+1;r++)

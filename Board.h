@@ -21,6 +21,7 @@ public:
 	int** color;//[rows][collumns];
 
 	Board();
+	Board(int,int);
 	void draw(int x, int y);
 
 	void deleterow(int num);

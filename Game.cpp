@@ -10,16 +10,16 @@
 #include <iostream>
 using namespace std;
 
-#define sizeX 8
-#define sizeY 5
+#define sizeX 16
+#define sizeY 2
 #define droptime 480
 #define rowstillgrow 5
 #define maxsizerow 30
 #define maxsizecol 25
 #define minsizerow 10
 #define minsizecol 6
-
 Random random;
+int score;
 
 Game::Game()
 {
@@ -30,6 +30,8 @@ Game::Game()
 
 void Game::run()
 {
+	score = 0;
+	nextBoard = new Board(6,5);
 	int now, then=clock();
 	int timeDelay=800;
 	disableFlashingCursor();
@@ -38,9 +40,9 @@ void Game::run()
 	starty=0;
 
 	//lets figure out where to print the title
-
+	nextPiece.newpiece(random.getInt(0,6),startx,starty);
 	piece.newpiece(random.getInt(0,6),startx,starty);
-
+	//piece = nextPiece;
 	while(gamerunning)
 	{	
 		while(!kbhit()&&gamerunning)
@@ -78,7 +80,10 @@ void Game::drawWorld()
 		cout<<"Block Puzzle Game";
 		board.draw(sizeX,sizeY);
 		piece.draw(sizeX,sizeY);
+		nextBoard->draw(5,7);
+		nextPiece.draw(1,8);
 		showLinesCleared(sizeX, sizeY);
+		showScore(sizeX, sizeY);
 		//brandon
 		//show score (maybe instead of lines cleared) you can also create how score is done and implement it
 	}
@@ -106,6 +111,7 @@ void Game::processGameLogic(int &then, int &now)
 			{
 				board.deleterow(r);
 				rowscleared++;
+				score += 10;
 				if(rowscleared%rowstillgrow==0)
 				{
 					//if(board.getcol()>minsizecol&&board.gboard.getrow()//if it is between the min and max let it grow/shrink
@@ -214,7 +220,9 @@ bool Game::moveDown()
 		piece.up();
 		board.putblock(piece);
 		piece.deletepiece();
-		piece.newpiece(random.getInt(0,6),startx,starty);
+		piece = nextPiece;
+		nextPiece.newpiece(random.getInt(0,6),startx,starty);
+		score++;
 		return true;
 	}
 	else
@@ -251,4 +259,10 @@ void Game::showLinesCleared(int offsetX, int offsetY)
 {
 	gotoxy(startx-3,board.getrow()+offsetY+1);
 	cout<<"Number of lines cleared: "<<rowscleared;
+}
+
+void Game::showScore(int offsetX, int offsetY)
+{
+	gotoxy(startx-3,board.getrow()+offsetY+2);
+	cout<<"Score: "<< score;
 }
