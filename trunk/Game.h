@@ -8,11 +8,15 @@
 #include "Piece.h"
 #include "startMenu.h"
 
+
 class Game
 {
 private:
+	
 	Board board;
+	Board *nextBoard;
 	Piece piece;
+	Piece nextPiece;
 	startMenu menu;
 	bool gamerunning;
 	char input;
@@ -26,6 +30,7 @@ public:
 	void drawWorld();
 	void processGameLogic(int &then, int &now);
 	void showLinesCleared(int x, int y);
+	void showScore(int x, int y);
 
 	void moveLeft();
 	void moveRight();
