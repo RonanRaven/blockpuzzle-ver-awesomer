@@ -8,6 +8,7 @@ using namespace std;
 
 startMenu::startMenu()
 {
+	gamemode=NULL;
 	GameModeSelected=false;
 	MenuFinished=false;
 
@@ -18,10 +19,9 @@ void startMenu::drawMenu()
 	cout<<"Welcome to the 'Block Puzzle Game'"<<endl;
 	cout<<"Please select how you would like to play:"<<endl<<endl;
 
-	cout<<"Play normally (n), \nwith expandable rows (y), \nwith expandable collumns (c), \nor with both (b), \nESC to quit: ";
-	//cin>>gamemode;
+	cout<<"Play normally (n), \nwith expandable rows (r), \nwith expandable collumns (c), \nor with both (b), \n\nESC to pause and to view this menu, \nor press Q to quit:";
 	cout<<endl<<endl;
-	if(gamemode=='y'||gamemode=='c'||gamemode=='b')
+	if(gamemode=='r'||gamemode=='c'||gamemode=='b')
 	{
 		cout<<"You have chosen "<<gamemode<<"."<<endl;
 		cout<<"Now, would you like the board to grow(g), or shrink(s)?";
@@ -40,8 +40,8 @@ bool startMenu::menuInput(int input)
 			gamemode='n';
 			MenuFinished=true;
 			break;
-		case 'Y':
-		case 'y':
+		case 'R':
+		case 'r':
 		case 'C':
 		case 'c':
 		case 'B':
@@ -49,9 +49,17 @@ bool startMenu::menuInput(int input)
 			gamemode=input;
 			GameModeSelected=true;
 			break;
-		case 27:
+		case 'Q':
+		case 'q':
 			return false;
-			break;
+		case 27:
+			if(gamemode==NULL)
+			{
+				gamemode='n';
+			}
+			GameModeSelected=true;
+			MenuFinished=true;
+			return true;
 		}
 	}
 	if(GameModeSelected)
@@ -69,8 +77,10 @@ bool startMenu::menuInput(int input)
 			MenuFinished=true;
 			break;
 		case 27:
+			return true;
+		case 'Q':
+		case 'q':
 			return false;
-			break;
 		}
 
 	}

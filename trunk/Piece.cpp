@@ -40,6 +40,7 @@ void Piece::newpiece(int number, int numx, int numy)
 	y=numy;
 	color=COLOR_CYAN;
 	ifstream file;
+	pieceType=number;
 	switch(number)
 	{// open files according to which tetrad
 	case 0:

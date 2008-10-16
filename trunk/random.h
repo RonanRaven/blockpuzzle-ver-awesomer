@@ -11,35 +11,11 @@ struct Random
 {
 	Random(){srand(time(NULL));}
 
-	int getInt();
-	int getInt(int from, int to);
-	char getChar();
-	char getChar(char from, char to);
-	bool getBool();
+	int getInt(){return rand();}
+	int getInt(int from, int to){return ((rand()%(to+1-from))+from);}
+	char getChar(){return (rand()%255);}//how many ascii characters are there?
+	char getChar(char from, char to){return ((rand()%(to+1-from))+from);}
+	bool getBool(){if(rand()%1){return true;}else{return false;}}//randomly returns true or false 
 };
-
-int Random::getInt()
-{
-	return rand();
-}
-int Random::getInt(int from, int to)
-{
-	return ((rand()%(to+1-from))+from);
-}
-char Random::getChar()
-{
-	return (rand()%255);//how many ascii characters are there?
-}
-char Random::getChar(char from, char to)
-{
-	return ((rand()%(to+1-from))+from);
-}
-bool Random::getBool()
-{
-	if(rand()%1)
-		return true;
-	else
-		return false;
-}
 
 #endif

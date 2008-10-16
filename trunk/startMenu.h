@@ -18,8 +18,6 @@ public:
 	void setGrow(int a_grow) { amounttogrow=a_grow;}
 	void drawMenu();
 	bool menuInput(int);
-
 };
-
 
 #endif

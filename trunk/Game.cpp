@@ -18,8 +18,7 @@ using namespace std;
 #define maxsizecol 25
 #define minsizerow 10
 #define minsizecol 6
-Random random;
-int score;
+Random random;//has some weird conflicts/errors if random is placed into game.h
 
 Game::Game()
 {
@@ -40,7 +39,7 @@ void Game::run()
 	starty=0;
 
 	//lets figure out where to print the title
-	nextPiece.newpiece(random.getInt(0,6),startx,starty);
+	nextPiece.newpiece(random.getInt(0,6),0,0);
 	piece.newpiece(random.getInt(0,6),startx,starty);
 	//piece = nextPiece;
 	while(gamerunning)
@@ -81,7 +80,7 @@ void Game::drawWorld()
 		board.draw(sizeX,sizeY);
 		piece.draw(sizeX,sizeY);
 		nextBoard->draw(5,7);
-		nextPiece.draw(1,8);
+		nextPiece.draw(6,8);
 		showLinesCleared(sizeX, sizeY);
 		showScore(sizeX, sizeY);
 		//brandon
@@ -221,7 +220,8 @@ bool Game::moveDown()
 		board.putblock(piece);
 		piece.deletepiece();
 		piece = nextPiece;
-		nextPiece.newpiece(random.getInt(0,6),startx,starty);
+		piece.setXY(startx,starty);
+		nextPiece.newpiece(random.getInt(0,6),0,0);
 		score++;
 		return true;
 	}
