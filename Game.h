@@ -12,17 +12,17 @@
 class Game
 {
 private:
-	
 	Board board;
 	Board *nextBoard;
 	Piece piece;
 	Piece nextPiece;
 	startMenu menu;
+
 	bool gamerunning;
 	char input;
-	//int timepassed;
 	int rowscleared;
 	int startx, starty;
+	int score;
 public:
 	Game();
 	void run();

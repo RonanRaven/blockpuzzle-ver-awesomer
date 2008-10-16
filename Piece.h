@@ -8,10 +8,9 @@ class Piece
 {
 private:
 	int x, y;
-	//int col, row;
 	int color;
+	int pieceType;
 public:
-	//char** table;
 	Map map;
 
 	Piece();
@@ -19,7 +18,6 @@ public:
 	void deletepiece();
 
 	void draw(int x, int y);
-	//void setXY(int x, int y);
 	void RotateCW();
 	void RotateCCW();
 	void flipH();
@@ -31,9 +29,12 @@ public:
 	void left();
 	void right();
 
+	void setXY(int numx, int numy){x=numx;y=numy;}
+
 	int getx(){return x;}
 	int gety(){return y;}
 	int getcolor(){return color;}
+	int getType(){return pieceType;}
 
 	int getrow(){return map.getrow();}
 	int getcol(){return map.getcol();}
@@ -41,6 +42,5 @@ public:
 	void setcol(int c){map.setcol(c);}
 	char checkAt(int r, int c){return map.checkAt(r,c);}
 	void setAt(int r, int c, char ascii){map.setAt(r,c,ascii);}
-
 };
 #endif

@@ -13,12 +13,10 @@
 class Board
 {
 private:
-	//int x, y;
-	//int row, col;
+	
 public:
-	//char** table;//[rows][collumns];
 	Map map;
-	int** color;//[rows][collumns];
+	int** color;
 
 	Board();
 	Board(int,int);

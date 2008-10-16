@@ -112,31 +112,6 @@ void Board::draw(int offsetx, int offsety)
 			}
 		}
 	}
-
-/*
-	//system("cls");
-	for(int r=0; r<getrow();r++)
-	{
-		for(int c=0;c<getcol();c++)
-		{
-			gotoxy(c+offsetx, r+offsety);
-			if(map.table[r][c]==' ')
-			{
-				setcolor(COLOR_BLACK,COLOR_WHITE);
-				cout<<' ';
-				setcolor(COLOR_GRAY,COLOR_BLACK);
-			}
-			else if(map.table[r][c]=='*')
-			{
-				setcolor(color[r][c],COLOR_BLACK);
-				cout<<(char)254;//the square
-				setcolor(COLOR_GRAY,COLOR_BLACK);
-			}
-		}
-		cout<<endl;
-	}
-*/
-
 }
 void Board::putblock(Piece &piece)
 {
@@ -147,7 +122,6 @@ void Board::putblock(Piece &piece)
 			if(piece.checkAt(r,c)!=' ')
 			{
 				setAt(r+piece.gety(),c+piece.getx(),piece.checkAt(r,c));
-				//map.table[r+piece.gety()][c+piece.getx()]=piece.checkAt(r,c);//piece.map.table[r][c];
 				color[r+piece.gety()][c+piece.getx()]=piece.getcolor();
 			}
 		}
@@ -163,7 +137,6 @@ bool Board::collision(Piece &piece)
 			if(checkAt(piece.gety()+r_count,piece.getx()+c_count)=='*' && piece.checkAt(r_count,c_count)=='*')
 			{
 				return true;
-				//break;
 			}
 		}
 	}
@@ -287,6 +260,6 @@ void Board::growCol(int numtogrow)//re-visit
 	//delete the empty rows at the right
 	for(int c=getcol()-numtogrow;c<getcol();c++)
 	{
-		deletecol(c);
+		//deletecol(c);
 	}
 }
