@@ -34,7 +34,7 @@ void Game::run()
 	score = 0;
 	nextBoard = new Board(6,5);
 	int now, then=clock();
-	int timeDelay=800;
+	int timeDelay=600;
 	disableFlashingCursor();
 
 	startx=board.getcol()/2;
@@ -96,7 +96,7 @@ void Game::processGameLogic(int &then, int &now)
 {
 	//brandon
 	//make the droptime not a defined value, but a variable that can change, and implement changing speed.
-	if(now>then+(droptime / ((rowscleared / 15) + 1))&&menu.MenuFinished)
+	if(now>then+(droptime-((rowscleared / 15)*100))&&menu.MenuFinished)//we know that the drop time will get ridiculous, but we choose not to put a cap :P
 	{
 		moveDown();
 		then=now;
