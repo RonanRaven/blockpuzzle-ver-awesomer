@@ -7,6 +7,8 @@ private:
 	char gamemode;
 	int amounttogrow;
 	bool GameModeSelected;
+	int color1;
+	int accum;
 public:
 	bool MenuFinished;
 
@@ -16,8 +18,9 @@ public:
 	void setMode(char a_mode, bool a_reset){ gamemode=a_mode; GameModeSelected=a_reset;}
 	int  getGrow(){return amounttogrow;}
 	void setGrow(int a_grow) { amounttogrow=a_grow;}
-	void drawMenu();
+	void drawMenu(int&, int&);
 	bool menuInput(int);
+	void colorchange(bool);
 };
 
 #endif

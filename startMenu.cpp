@@ -2,24 +2,51 @@
 #include "startMenu.h"
 #include <conio.h>
 #include <windows.h>
+#include <stdlib.h>
 #include <time.h>
 #include <iostream>
 using namespace std;
+
+#define StartTime 500
+#define Delaytime 1000
 
 startMenu::startMenu()
 {
 	gamemode=NULL;
 	GameModeSelected=false;
 	MenuFinished=false;
+	color1=7;
+	int accum=0;
 
 }
 
-void startMenu::drawMenu()
+void startMenu::drawMenu(int &then,int &now)
 {
+	srand(time(0));
+	
+	int difference =now-then;
+	accum +=difference;
+	if(accum>StartTime)
+	{
+		color1=( (rand() %9)+7);
+		accum=0;
+		then = now;
+	}
+	setcolor(color1,COLOR_BLACK);
 	cout<<"Welcome to the 'Block Puzzle Game'"<<endl;
+	colorchange((accum<StartTime));
 	cout<<"Please select how you would like to play:"<<endl<<endl;
-
-	cout<<"Play normally (n), \nwith expandable rows (r), \nwith expandable collumns (c), \nor with both (b), \n\nESC to pause and to view this menu, \nor press Q to quit:";
+	colorchange((accum<StartTime));
+	cout<<"Play normally (n), ";
+	colorchange((accum<StartTime));
+	cout<< "\nwith expandable rows (r), ";
+	colorchange((accum<StartTime));
+	cout<< "\nwith expandable collumns (c), ";
+	colorchange((accum<StartTime));
+	cout<< "\nor with both (b), ";
+	setcolor(COLOR_GRAY,COLOR_BLACK);
+	cout<< "\n\nESC to pause and to view this menu, ";
+	cout<< "\nor press Q to quit:";
 	cout<<endl<<endl;
 	if(gamemode=='r'||gamemode=='c'||gamemode=='b')
 	{
@@ -86,4 +113,14 @@ bool startMenu::menuInput(int input)
 	}
 	return true;
 
+}
+
+void startMenu::colorchange(bool answer)
+{
+	int color;
+	if(answer)
+	{
+		 color=( (rand() %9)+7);
+	}
+	setcolor(color,COLOR_BLACK);
 }

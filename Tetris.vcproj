@@ -238,11 +238,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\C.txt"
+				>
+			</File>
+			<File
 				RelativePath=".\D.txt"
 				>
 			</File>
 			<File
+				RelativePath=".\F.txt"
+				>
+			</File>
+			<File
 				RelativePath=".\I.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\K.txt"
 				>
 			</File>
 			<File
@@ -251,6 +263,10 @@
 			</File>
 			<File
 				RelativePath=".\T.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\U.txt"
 				>
 			</File>
 			<File
