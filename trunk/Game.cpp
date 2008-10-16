@@ -41,8 +41,8 @@ void Game::run()
 	starty=0;
 
 	//lets figure out where to print the title
-	nextPiece.newpiece(random.getInt(0,10),0,0);
-	piece.newpiece(random.getInt(0,10),startx,starty);
+	nextPiece.newpiece(random.getInt(0,	6),0,0);
+	piece.newpiece(random.getInt(0,6),startx,starty);
 	//piece = nextPiece;
 	while(gamerunning)
 	{	
@@ -50,7 +50,7 @@ void Game::run()
 		{
 			now=clock();
 			processGameLogic(then, now);
-			drawWorld();
+			drawWorld(then, now);
 			gotoxy(sizeX,sizeY);//to keep the screen from jittering around
 			while(!kbhit()&&clock()<now+timeDelay)
 			{
@@ -69,12 +69,12 @@ void Game::run()
 	cout<<"Your score was: "<<score<<", and you cleared "<<rowscleared<<" rows!"<<endl;
 }
 
-void Game::drawWorld()
+void Game::drawWorld(int &then, int &now)
 {
 	gotoxy(board.getcol()/2,sizeY-2);// 2 is right above where it's printed
 	if(!menu.MenuFinished)
 	{
-		menu.drawMenu();
+		menu.drawMenu(then, now);
 	}
 	else
 	{
@@ -228,7 +228,8 @@ bool Game::moveDown()
 		piece.deletepiece();
 		piece = nextPiece;
 		piece.setXY(startx,starty);
-		nextPiece.newpiece(random.getInt(0,10),0,0);
+
+		nextPiece.newpiece(random.getInt(0,7),0,0);
 		score++;
 		return true;
 	}

@@ -27,7 +27,7 @@ public:
 	Game();
 	void run();
 	void processInput();
-	void drawWorld();
+	void drawWorld(int &then, int&now);
 	void processGameLogic(int &then, int &now);
 	void showLinesCleared(int x, int y);
 	void showScore(int x, int y);
