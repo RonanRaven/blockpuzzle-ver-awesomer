@@ -93,7 +93,7 @@ void Game::processGameLogic(int &then, int &now)
 {
 	//brandon
 	//make the droptime not a defined value, but a variable that can change, and implement changing speed.
-	if(now>then+droptime&&menu.MenuFinished)
+	if(now>then+(droptime * ((rowscleared %15) + 1))&&menu.MenuFinished)
 	{
 		moveDown();
 		then=now;
