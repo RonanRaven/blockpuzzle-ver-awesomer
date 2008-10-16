@@ -41,8 +41,8 @@ void Game::run()
 	starty=0;
 
 	//lets figure out where to print the title
-	nextPiece.newpiece(random.getInt(0,7),0,0);
-	piece.newpiece(random.getInt(0,7),startx,starty);
+	nextPiece.newpiece(random.getInt(0,10),0,0);
+	piece.newpiece(random.getInt(0,10),startx,starty);
 	//piece = nextPiece;
 	while(gamerunning)
 	{	
@@ -228,7 +228,7 @@ bool Game::moveDown()
 		piece.deletepiece();
 		piece = nextPiece;
 		piece.setXY(startx,starty);
-		nextPiece.newpiece(random.getInt(0,7),0,0);
+		nextPiece.newpiece(random.getInt(0,10),0,0);
 		score++;
 		return true;
 	}

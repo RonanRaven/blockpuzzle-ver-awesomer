@@ -93,6 +93,18 @@ void Piece::newpiece(int number, int numx, int numy)
 		file.open("F.txt");
 		color=COLOR_MAGENTA;
 		break;
+	case 8:
+		file.open("U.txt");
+		color=COLOR_MAGENTA;
+		break;
+	case 9:
+		file.open("C.txt");
+		color=COLOR_MAGENTA;
+		break;
+	case 10:
+		file.open("K.txt");
+		color=COLOR_MAGENTA;
+		break;
 	default:
 		//*
 		//
