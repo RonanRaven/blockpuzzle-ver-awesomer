@@ -20,6 +20,8 @@ using namespace std;
 #define minsizecol 6
 Random random;//has some weird conflicts/errors if random is placed into game.h
 
+#define debug//uncomment for debug spacebar (Yay for growing and shrinking!)
+
 Game::Game()
 {
 	gamerunning=true;
@@ -62,7 +64,9 @@ void Game::run()
 		}
 	}
 	//game over X_X
+	system("cls");
 	cout<<"GAME OVER"<<endl;
+	cout<<"Your score was: "<<score<<", and you cleared "<<rowscleared<<" rows!"<<endl;
 }
 
 void Game::drawWorld()
@@ -172,8 +176,8 @@ void Game::processInput()
 		case 'e':
 			rotateCW();
 			break;
+#ifdef debug
 		case ' '://debug/display purposes only
-			
 			system("cls");
 			if((menu.getMode()=='b'||menu.getMode()=='r')&&((board.getrow()>minsizerow)&&(board.getrow()<maxsizerow)))
 				board.growRow(menu.getGrow());
@@ -183,6 +187,10 @@ void Game::processInput()
 				startx=(board.getcol()/2);
 			}
 			break;
+		case '=':
+			rowscleared++;
+			break;
+#endif
 			
 		case 27:
 			menu.setMode(0,false);
@@ -206,7 +214,6 @@ void Game::moveRight()
 	//if it hits something, or goes off the edge
 	if(board.outside(piece)||board.collision(piece))
 		piece.left();
-	
 }
 bool Game::moveDown()
 {
