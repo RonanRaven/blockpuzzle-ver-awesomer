@@ -12,7 +12,7 @@ using namespace std;
 
 #define sizeX 16
 #define sizeY 2
-#define droptime 480
+#define droptime 800
 #define rowstillgrow 5
 #define maxsizerow 30
 #define maxsizecol 25
@@ -34,7 +34,7 @@ void Game::run()
 	score = 0;
 	nextBoard = new Board(6,5);
 	int now, then=clock();
-	int timeDelay=600;
+	int timeDelay=400;
 	disableFlashingCursor();
 
 	startx=board.getcol()/2;
