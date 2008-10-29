@@ -43,10 +43,19 @@ void startMenu::drawMenu(int &then,int &now)
 	colorchange((accum<StartTime));
 	cout<< "\nwith expandable collumns (c), ";
 	colorchange((accum<StartTime));
-	cout<< "\nor with both (b), ";
+	cout<< "\nwith both (b), ";
 	setcolor(COLOR_GRAY,COLOR_BLACK);
-	cout<< "\n\nESC to pause and to view this menu, ";
-	cout<< "\nor press Q to quit:";
+	cout<< "\n\nor press Q to quit:";
+
+	cout<<endl<<endl<<"Controls:"<<endl;
+	cout<<"Q to rotate counter clockwise"<<endl;
+	cout<<"E to rotate clockwise"<<endl;
+	cout<<"W or up arrow for hard drop"<<endl;
+	cout<<"A or left arrow for moving the piece left"<<endl;
+	cout<<"D or right arrow for moving the piece right"<<endl;
+	cout<<"S or down arrow to move the piece down"<<endl;
+	cout<<"Escape to bring up this pause menu"<<endl;
+
 	cout<<endl<<endl;
 	if(gamemode=='r'||gamemode=='c'||gamemode=='b')
 	{
